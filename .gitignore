@@ -1,5 +1,6 @@
-.idea/*
 *.iml
-poi-5.0.0
-out
+.idea
+poi-3.10-FINAL
 *.xlsx
+out
+
