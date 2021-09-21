@@ -13,14 +13,9 @@ public class ExcelManager {
     String fileName;
     // static 자료구조
     static Map<String, Campaign> campaigns;
-    ExcelManager(String fileName, boolean isInitial) {
+    ExcelManager(String fileName) {
         this.fileName = fileName;
-        if(isInitial) {
-            initFile();
-        }
-        else {
-
-        }
+        initFile();
     }
     public static Set<String> getCampaigns() {
         return campaigns.keySet();
@@ -53,6 +48,9 @@ public class ExcelManager {
         }
     }
 
+    public static void makeLink(List<String> selected) {
+        // 링크 생성한 파일 만들기
+    }
 
 }
 
