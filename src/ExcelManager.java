@@ -51,6 +51,7 @@ public class ExcelManager {
                     campaigns.put(campaignName, newCampaign);
 
                 } else {
+                    if(campaigns.get(campaignName).groups.contains(group)) continue;
                     campaigns.get(campaignName).groups.add(group);
                 }
             }
@@ -72,8 +73,7 @@ public class ExcelManager {
             String[] array = line.split("\t");
             String SJName = array[0];
             String webDP = array[1];
-            String phoneURL = array[2];
-            String shortDP = array[3];
+            String shortDP = array[2];
 
             for (String targetString : selected) {
                 Campaign target = campaigns.get(targetString);
@@ -90,8 +90,8 @@ public class ExcelManager {
                     curRow.createCell(7).setCellValue(target.AFChannelName);
                     curRow.createCell(8).setCellValue(lookBack);
                     curRow.createCell(9).setCellValue(webDP);
-                    curRow.createCell(10).setCellValue(phoneURL);
-                    curRow.createCell(11).setCellValue(phoneURL);
+                    curRow.createCell(10).setCellValue(webDP);
+                    curRow.createCell(11).setCellValue(webDP);
                     curRow.createCell(12).setCellValue(shortDP);
                     curRow.createCell(13).setCellValue("madit");
                     curRow.createCell(14).setCellValue(isRetarget ? "TRUE" : "");
