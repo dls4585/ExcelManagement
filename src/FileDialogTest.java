@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Set;
 
 
@@ -13,6 +12,7 @@ public class FileDialogTest extends JFrame implements ActionListener {
     JPanel buttons, textPanel;
     JTextArea textArea, textArea2;
     List<String> selected;
+    String[] soJae;
     public FileDialogTest() {
         setTitle("FileDiaog");
         InitLayout();
@@ -26,11 +26,6 @@ public class FileDialogTest extends JFrame implements ActionListener {
         buttons = new JPanel();
         buttons.setLayout(null);
         buttons.setBounds(0, 0, 600, 100);
-
-//        btnLoad = new JButton("만들고 싶은 링크 정보 파일");
-//        btnLoad.addActionListener(this);
-//        btnLoad.setBounds(300, 25, 250, 50);
-//        buttons.add(btnLoad);
 
         btnInitial = new JButton("처음 파일 넣기");
         btnInitial.addActionListener(this);
@@ -58,6 +53,7 @@ public class FileDialogTest extends JFrame implements ActionListener {
 
         btnConfirm = new JButton("링크 생성");
         btnConfirm.setBounds(475, 585, 75, 50);
+        btnConfirm.addActionListener(this);
         textPanel.add(btnConfirm);
 
         add(buttons);
@@ -75,7 +71,7 @@ public class FileDialogTest extends JFrame implements ActionListener {
         panel.setLayout(null);
         panel.setBounds(0, 0, 600, 700);
 
-        Set<String> campaigns = ExcelManager.getCampaigns();
+        Set<String> campaigns = ExcelManager.getInstance().getCampaigns();
 
         JList campaignList = new JList(campaigns.toArray());
         campaignList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -113,17 +109,33 @@ public class FileDialogTest extends JFrame implements ActionListener {
             // 2. FileDialog가 비정상 종료
             if(dialog.getFile() == null) return;
 
-            String file = dialog.getDirectory() + dialog.getFile();
-
-            new ExcelManager(file);
+            String path = dialog.getDirectory();
+            String file =  path + dialog.getFile();
+            ExcelManager.getInstance().init(file, path);
 
         } else if (e.getSource().equals(btnText)) {
             String text = textArea.getText();
-            String[] lines = text.split("\n");
-            System.out.println(Arrays.toString(lines));
+            soJae = text.split("\n");
             makeSecondFrame();
         } else if (e.getSource().equals(btnConfirm)) {
-            ExcelManager.makeLink(selected);
+            boolean ret = ExcelManager.getInstance().makeLink(selected, soJae);
+            if(ret) {
+                JFrame frame2 = new JFrame("알림");
+                frame2.setLocation(300, 300);
+                frame2.setSize(400, 100);
+                JPanel panel = new JPanel();
+                panel.setSize(400, 100);
+
+                JLabel label = new JLabel("링크 생성 파일(링크생성.xlsx)이 생성되었습니다.");
+                label.setBounds(50, 20, 300, 50);
+                JButton btn = new JButton("확인");
+                btn.setBounds(225, 75, 50, 20);
+                btn.addActionListener(e1->frame2.dispose());
+                panel.add(label);
+                panel.add(btn);
+                frame2.add(panel);
+                frame2.setVisible(true);
+            }
         }
     }
 }
