@@ -38,7 +38,7 @@ public class ExcelManager {
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             XSSFSheet sheet = workbook.getSheetAt(0);
             for (Row row : sheet) {
-                if(row.getRowNum() < 6) continue;
+                if(row.getRowNum() < 4) continue;
                 if(row.getCell(0) == null) break;
 
                 String campaignName = row.getCell(3).getStringCellValue();
@@ -49,7 +49,6 @@ public class ExcelManager {
                     Campaign newCampaign = new Campaign(campaignName, AFCampaignName, AFChannelName);
                     newCampaign.groups.add(group);
                     campaigns.put(campaignName, newCampaign);
-
                 } else {
                     if(campaigns.get(campaignName).groups.contains(group)) continue;
                     campaigns.get(campaignName).groups.add(group);
