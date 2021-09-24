@@ -4,3 +4,4 @@ poi-3.10-FINAL
 *.xlsx
 out
 
+src/META-INF/MANIFEST.MF
